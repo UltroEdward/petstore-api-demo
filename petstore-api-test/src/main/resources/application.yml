@@ -1,0 +1,10 @@
+spring:
+    profiles:
+        active: test
+    application:
+        name: MS Word Test
+    main:
+        banner-mode: off
+
+base:
+    uri: "https://petstore.swagger.io/v2"

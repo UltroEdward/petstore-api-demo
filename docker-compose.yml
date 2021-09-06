@@ -1,0 +1,29 @@
+version: '3.7'
+services:
+    api-test:
+        container_name: petstore.api.test
+        image: maven:3.8.2-openjdk-11
+        command: mvn clean test -Dbase.uri="http://petstore.local:8080/v2"
+        volumes:
+            - "./petstore-api-test:/src"
+        working_dir: /src
+        networks:
+            - petstore-network
+        depends_on:
+            - petstore
+    petstore:
+        container_name: petstore
+        image: petstore:v2-1.0.5
+        build: 
+            context: ./swagger-petstore-swagger-petstore-v2-1.0.5
+        environment:
+            SWAGGER_HOST: http://localhost
+            SWAGGER_BASE_PATH: /v2
+        networks:
+            petstore-network:
+                aliases:
+                    - petstore.local
+        ports:
+            - 8080:8080            
+networks:
+    petstore-network:
